@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   </head>
   <body>
+ 
     <div class="headerCalendar">Mi Agenda Personal</div>
     <div class="dataContainer">
       <div class="calendarDataContainer">
@@ -22,6 +23,7 @@
           </div>
         </div>
       </div>
+
       <div class="formContainer">
         <div class="formTitle">Programar Evento</div>
         <div class="separator"></div>
@@ -39,9 +41,9 @@
           </div>
           <button id="save" class="addButton">Añadir evento</button>
         </div>
-        <div id="deleteEvent" class="delete">
+        <div id="droppable" class="delete">
           <div class="drop-event">Eliminar evento</div>
-          <img src="img/delete.png"/>
+          <img src="img/delete.png" id="delete" />
         </div>
         <div class="logout-container">
           <img class="logout-image" src="img/logout.png"/>
@@ -49,6 +51,7 @@
         </div>
       </div>
     </div>
+
     <script src="js/jquery.js"></script>
 
     <script src="http://momentjs.com/downloads/moment.min.js"></script>
@@ -93,18 +96,27 @@
         center: 'title',
         right: 'month,agendaWeek,agendaDay,listWeek'
       },
-      defaultDate: '2017-03-22',
+      defaultDate: '2017-03-24',
       editable: true,
+      droppable: true,
+
       navLinks: true, // can click day/week names to navigate views
       eventLimit: true, // allow "more" link when too many events
       events: {
-        url: 'users/cargarEventos',
+        url: 'users/cargar_eventos',
         error: function() {
           $('#script-warning').show();
         }
       },
       loading: function(bool) {
         $('#loading').toggle(bool);
+      }
+
+    });
+
+    $( "#droppable" ).droppable({
+      drop: function( event, ui ) {
+        alert("asdsad");
       }
     });
     
@@ -115,10 +127,10 @@
         var sho = $('#start_hour').val();
         var eho = $('#end_hour').val();
         //console.log(nom+"  "+pas);
-        $.post('/users/agregarEvento',{titulo:tit,fechai:sda}, function(response) {
+        $.post('/users/agregar_evento',{titulo:tit,fechai:sda,fechaf:eda,hi:sho,hf:eho}, function(response) {
             alert(response);
+            window.location.reload(true);
         })
     })
   });
-
 </script>
